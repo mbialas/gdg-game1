@@ -2,13 +2,17 @@
 using System.Collections;
 
 public class humanAi : MonoBehaviour {
-	Vector3 direction;
+	//Vector3 direction;
 
 	public NavMeshAgent navAgent;
 	GameObject currentTarget;
 
 	public float runSpeed;
 	float baseSpeed;
+
+	bool goingtoSafe = false;
+
+	public bool stayInSafe;
 
 	// Use this for initialization
 	void Start () {
@@ -20,7 +24,7 @@ public class humanAi : MonoBehaviour {
 		navAgent = (NavMeshAgent)GetComponent("NavMeshAgent");
 
 		//Pick a random target from the designated objects
-		currentTarget = getRandomNavTarget ();
+		currentTarget = getRandomNavTarget ("Finish");
 
 		//store base navagent speed in variable
 		baseSpeed = navAgent.speed;
@@ -38,8 +42,8 @@ public class humanAi : MonoBehaviour {
 	}
 
 	//return randomly selected nav target
-	GameObject getRandomNavTarget() {
-		GameObject[] targets = GameObject.FindGameObjectsWithTag ("Finish");
+	GameObject getRandomNavTarget(string tagName) {
+		GameObject[] targets = GameObject.FindGameObjectsWithTag (tagName);
 
 		int x = Random.Range (0, targets.Length);
 
@@ -50,14 +54,25 @@ public class humanAi : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		//If close to nav destination, pick new random destination to keep moving
 		if (navAgent.remainingDistance < 5) {
-						currentTarget = getRandomNavTarget ();
-			navAgent.speed = baseSpeed;
-						navAgent.SetDestination (currentTarget.transform.position);
-				}
-
+			if (goingtoSafe && stayInSafe) {
+				}else {
+				currentTarget = getRandomNavTarget ("Finish");
+				navAgent.speed = baseSpeed;
+				navAgent.SetDestination (currentTarget.transform.position);
+			}
 		}
+
+		//If close to nav destination, pick new random destination to keep moving
+		/*
+		if (navAgent.remainingDistance < 5 && !goingtoSafe) {
+				currentTarget = getRandomNavTarget ("Finish");
+				navAgent.speed = baseSpeed;
+				navAgent.SetDestination (currentTarget.transform.position);
+				}
+		*/
+		}
+
 
 	//Destroy human object
 	void die() {
@@ -66,11 +81,12 @@ public class humanAi : MonoBehaviour {
 
 	//Sprint to "safe" location (0,0,0 is test)
 	void Afraid() {
+
 		navAgent.Stop ();
 		navAgent.speed = runSpeed;
 		//navAgent.SetDestination (new Vector3 (0, 0, 0));
-
-		navAgent.SetDestination (GameObject.FindGameObjectWithTag ("SafeZone").transform.position);
+		goingtoSafe = true;
+		navAgent.SetDestination (getRandomNavTarget ("SafeZone").transform.position);
 	}
 
 }

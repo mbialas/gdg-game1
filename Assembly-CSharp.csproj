@@ -46,11 +46,10 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\gameControl.cs" />
-     <Compile Include="Assets\humanAi.cs" />
-     <Compile Include="Assets\werewolfAi.cs" />
-     <Compile Include="Assets\zombieAi.cs" />
-     <Compile Include="Assets\zombieGroupAI.cs" />
+     <Compile Include="Assets\Refactored scripts\gameControl.cs" />
+     <Compile Include="Assets\Refactored scripts\humanAi.cs" />
+     <Compile Include="Assets\Refactored scripts\werewolfAi.cs" />
+     <Compile Include="Assets\Refactored scripts\zombieAi.cs" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Particle Shaders\Mobile Multiply Culled.shader" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Miscellaneous Shaders\Mobile Background.shader" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Vertex Colored Shaders\Mobile Transparent Vertex Color.shader" />
